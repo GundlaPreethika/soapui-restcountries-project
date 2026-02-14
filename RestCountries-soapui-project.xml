@@ -1,0 +1,31 @@
+<con:soapui-project id="restcountries-project"
+    name="RestCountries Project"
+    resourceRoot=""
+    soapui-version="5.7.0"
+    xmlns:con="http://eviware.com/soapui/config">
+
+    <con:testSuite name="RestCountries TestSuite">
+        <con:testCase name="Subregion TestCase">
+
+            <con:testStep type="groovy" name="Read CSV">
+                <con:config>
+                    <script>
+                        def file = new File("C:\\Users\\gundl\\OneDrive\\Desktop\\subregion.csv")
+                        def lines = file.readLines()
+                        def subregion = lines[1].split(",")[0]
+                        testRunner.testCase.setPropertyValue("subregion", subregion)
+                    </script>
+                </con:config>
+            </con:testStep>
+
+            <con:testStep type="restrequest" name="Get Subregion">
+                <con:config method="GET"
+                    resourcePath="/v3.1/subregion/${#TestCase#subregion}"
+                    endpoint="https://restcountries.com">
+                </con:config>
+            </con:testStep>
+
+        </con:testCase>
+    </con:testSuite>
+
+</con:soapui-project>
